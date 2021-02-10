@@ -6,23 +6,27 @@ trigger:
  - master 
 pool:
  - vmImage: 'Ubuntu-16.04'
+variables:
+  tag: '$(Build.BuildId)'
+  ImageName: 'surekhadock2020/azuredevops-ci:$(tag)'
 steps:
  - task: Docker@1 
    displayName: 'Build an image'
    inputs:
      containerregistrytype: 'container Registry'
-     dockerRegistryEndpoint: surekhadock2020
-     imageName: 'surekhadock2020/azuredevops-ci:$(Build.BuildId)'
+     dockerRegistryEndpoint: 'Docker Hub'
+     imageName: $('ImageName')
      command: build an image
      dockerFile: '**/Dockerfile'
+     includeLatestTag: true
  - task: Docker@1
    displayName: Login
    inputs:
      containerregistrytype: 'container Registry'
-     dockerRegistryEndpoint: surekhadock2020
+     dockerRegistryEndpoint: 'Docker Hub'
      command: login
  - task: Docker@1
    displayName: 'Push an image'
    inputs:
      command: push an image
-     imageName: 'surekhadock2020/azuredevops-ci:$(Build.BuildId)'
+     imageName: $('ImageName')
