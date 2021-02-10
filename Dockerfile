@@ -8,4 +8,4 @@ RUN npm install
 WORKDIR /data
 
 # Define default command.
-CMD ["bash"]
+CMD ["npm","run","start"]
