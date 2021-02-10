@@ -1,11 +1,11 @@
 # Pull base image.
-FROM dockerfile/nodejs
+FROM ubuntu:latest
 
 # Install npm
-RUN npm install
+RUN apt-get update
 
 # Define working directory.
 WORKDIR /data
 
 # Define default command.
-CMD ["npm","run","start"]
+CMD ["/bin/bash"]
