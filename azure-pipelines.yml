@@ -4,17 +4,31 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
-stages:
-- stage: Build
-  displayName: Build an Image
-  jobs:
-  - job: Build    
-      steps:
-      - task: Docker@2
-      displayName: 'Build an Image from Dockerfile'
-      inputs:
-        command: build
-        dockerfile: '**/Dockerfile'
-        tags: '$(Build.BuildId)'
+ - master 
+pool:
+ - vmImage: 'Ubuntu-16.04'
+variables:
+  tag: '$(Build.BuildId)'
+  ImageName: 'surekhadock2020/azuredevops-ci:$(tag)'
+steps:
+ - task: Docker@1 
+   displayName: 'Build an image'
+   inputs:
+     containerregistrytype: 'container Registry'
+     dockerRegistryEndpoint: 'Docker Hub'
+     imageName: '$(ImageName)'
+     command: build an image
+     dockerFile: '**/Dockerfile'
+     includeLatestTag: true
+ - task: Docker@1
+   displayName: Login
+   inputs:
+     containerregistrytype: 'container Registry'
+     dockerRegistryEndpoint: 'Docker Hub'
+     command: login
+ - task: Docker@1
+   displayName: 'Push an image'
+   inputs:
+     command: push an image
+     imageName: '$(ImageName)'
 
