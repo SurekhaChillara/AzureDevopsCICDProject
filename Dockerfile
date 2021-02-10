@@ -8,4 +8,4 @@ RUN apt-get update
 WORKDIR /data
 
 # Define default command.
-CMD ["/bin/bash"]
+CMD ["echo","Hey There!"]
