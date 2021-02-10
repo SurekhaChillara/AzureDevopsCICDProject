@@ -1,0 +1,28 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+ - master 
+pool:
+ - vmImage: 'Ubuntu-16.04'
+steps:
+ - task: Docker@1 
+   displayName: 'Build an image'
+   inputs:
+     containerregistrytype: 'container Registry'
+     dockerRegistryEndpoint: surekhadock2020
+     imageName: 'surekhadock2020/azuredevops-ci:$(Build.BuildId)'
+     command: build an image
+     dockerFile: '**/Dockerfile'
+ - task: Docker@1
+   displayName: Login
+   inputs:
+     containerregistrytype: 'container Registry'
+     dockerRegistryEndpoint: surekhadock2020
+     command: login
+ - task: Docker@1
+   displayName: 'Push an image'
+   inputs:
+     command: push an image
+     imageName: 'surekhadock2020/azuredevops-ci:$(Build.BuildId)'
